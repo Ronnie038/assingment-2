@@ -2,6 +2,7 @@ import mongoose, { Schema } from 'mongoose';
 
 import bcrypt from 'bcrypt';
 import { TOrder, TUser, UserModel } from './user.interface';
+import config from '../../config';
 
 const orderSchema = new Schema<TOrder>(
   {
@@ -32,28 +33,45 @@ const userSchema = new Schema<TUser, UserModel>(
     },
     email: String,
     fullName: {
-      type: {
-        firstName: String,
-        lastName: String,
-      },
-      required: true,
+      firstName: String,
+      lastName: String,
     },
 
     orders: { type: [orderSchema], default: [] },
 
     hobbies: { type: [String], default: [] },
     address: {
-      type: {
-        street: String,
-        city: String,
-        country: String,
-      },
+      street: String,
+      city: String,
+      country: String,
+    },
+    age: {
+      type: Number,
       required: true,
     },
   },
   { timestamps: true },
 );
 // * making the hashed password using bcrypt
+userSchema.pre('save', async function (next) {
+  const password = this.password;
+  const saltRounds = Number(config.bcrypt_salt_rounds);
+
+  const salt = await bcrypt.genSalt(saltRounds);
+
+  const hashedPassword = await bcrypt.hash(password, salt);
+
+  this.password = hashedPassword;
+
+  next();
+});
+
+// * removing the password after creating the user to send user Response
+// userSchema.post('save', function (data, next) {
+//   this.password = '';
+
+//   next();
+// });
 
 // * checking user exists or not
 userSchema.statics.isUserExists = async id => {

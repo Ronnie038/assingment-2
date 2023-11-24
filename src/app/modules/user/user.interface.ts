@@ -6,6 +6,12 @@ export type TOrder = {
   quantity: number;
 };
 
+export type TAddress = {
+  street: string;
+  city: string;
+  country: string;
+};
+
 export interface TUser {
   userId: number;
   username: string;
@@ -17,11 +23,8 @@ export interface TUser {
   };
   orders: TOrder[];
   hobbies: string[];
-  address: {
-    street: string;
-    city: string;
-    country: string;
-  };
+  address: TAddress;
+  age: number;
 }
 
 // * for creating static method

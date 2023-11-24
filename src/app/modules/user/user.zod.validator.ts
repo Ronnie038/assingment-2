@@ -8,7 +8,7 @@ export const orderValidatorSchema = z.object({
 
 export const userValidatorSchema = z.object({
   userId: z.number(),
-  username: z.string(),
+  username: z.string().min(3, { message: 'user must be required' }),
   password: z.string(),
   email: z.string().email(),
   fullName: z.object({
@@ -28,4 +28,5 @@ export const userValidatorSchema = z.object({
     city: z.string(),
     country: z.string(),
   }),
+  age: z.number(),
 });
