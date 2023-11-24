@@ -1,6 +1,9 @@
 import { Request, Response } from 'express';
 import { userService } from './user.service';
-import { userValidatorSchema } from './user.zod.validator';
+import {
+  orderValidatorSchema,
+  userValidatorSchema,
+} from './user.zod.validator';
 import { ZodError } from 'zod';
 
 const createUser = async (req: Request, res: Response) => {
@@ -126,10 +129,51 @@ const deleteUserByUserId = async (req: Request, res: Response) => {
     });
   }
 };
+
+// * order section start
+
+const createOrder = async (req: Request, res: Response) => {
+  try {
+    const { userId } = req.params;
+    const orderData = req.body;
+
+    const parseZodData = orderValidatorSchema.parse(orderData);
+
+    const createdOrder = await userService.createOrderByUserId(
+      userId,
+      parseZodData,
+    );
+
+    res.status(200).json({
+      success: true,
+      message: 'Order created successfully!',
+      data: null,
+    });
+  } catch (error) {
+    if (error instanceof ZodError) {
+      return res.status(403).json({
+        success: false,
+        message: 'order validation faild',
+        error,
+      });
+    }
+
+    res.status(404).json({
+      success: false,
+      message: 'User not found',
+      error: {
+        code: 404,
+        description: 'User not found!',
+      },
+    });
+  }
+};
+
 export const userController = {
   createUser,
   getUsers,
   getSingleUser,
   updateSingleUser,
   deleteUserByUserId,
+  createOrder,
 };
