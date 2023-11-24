@@ -53,8 +53,9 @@ const userSchema = new Schema<TUser, UserModel>(
   },
   { timestamps: true },
 );
+// * making the hashed password using bcrypt
 
-// * creating existingUser user checking method
+// * checking user exists or not
 userSchema.statics.isUserExists = async id => {
   const existingUser = await User.findOne({ id });
   return existingUser;
