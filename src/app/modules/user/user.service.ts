@@ -26,8 +26,25 @@ const getSingleUserFromDb = async (userId: string) => {
   }
   return result;
 };
+
+const updateUserByUserId = async (
+  userId: string,
+  updatedData: Partial<TUser>,
+) => {
+  const userIdNumber = Number(userId);
+  console.log(updatedData);
+  const updatedUser = await User.findOneAndUpdate(
+    { userId: userIdNumber },
+    updatedData,
+    { new: true },
+  ).select('-password -orders');
+
+  return updatedUser;
+};
+
 export const userService = {
   createUserInDb,
   getUsersFromDb,
   getSingleUserFromDb,
+  updateUserByUserId,
 };
