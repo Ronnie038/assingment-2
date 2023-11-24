@@ -32,7 +32,10 @@ const updateUserByUserId = async (
   updatedData: Partial<TUser>,
 ) => {
   const userIdNumber = Number(userId);
-  console.log(updatedData);
+
+  if (!(await User.isUserExists(userIdNumber))) {
+    throw new Error('user does not exists');
+  }
   const updatedUser = await User.findOneAndUpdate(
     { userId: userIdNumber },
     updatedData,
@@ -42,9 +45,19 @@ const updateUserByUserId = async (
   return updatedUser;
 };
 
+const deleteUserFromDb = async (userId: string) => {
+  if (!(await User.isUserExists(Number(userId)))) {
+    throw new Error('user does not exists');
+  }
+  const deletedUser = await User.deleteOne({ userId: Number(userId) });
+
+  return deletedUser;
+};
+
 export const userService = {
   createUserInDb,
   getUsersFromDb,
   getSingleUserFromDb,
   updateUserByUserId,
+  deleteUserFromDb,
 };

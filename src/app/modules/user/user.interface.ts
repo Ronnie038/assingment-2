@@ -30,5 +30,4 @@ export interface TUser {
 // * for creating static method
 export interface UserModel extends Model<TUser> {
   isUserExists(id: number): Promise<TUser | null>;
-  excludPassword(): void;
 }
