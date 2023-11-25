@@ -150,6 +150,7 @@ const createOrder = async (req: Request, res: Response) => {
       data: null,
     });
   } catch (error) {
+    // if error comes from zod validator
     if (error instanceof ZodError) {
       return res.status(403).json({
         success: false,
@@ -169,6 +170,7 @@ const createOrder = async (req: Request, res: Response) => {
   }
 };
 
+// getting all created orders
 const getOrders = async (req: Request, res: Response) => {
   try {
     const { userId } = req.params;
@@ -195,7 +197,7 @@ const getOrders = async (req: Request, res: Response) => {
 const calculateOrdersTotal = async (req: Request, res: Response) => {
   try {
     const { userId } = req.params;
-    const total_price = await userService.calculateOrdersTotalPrice(userId);
+    const total_price = await userService.calculateOrdersTotalPrice(userId); //getting total sum of orders
 
     res.status(200).json({
       success: true,

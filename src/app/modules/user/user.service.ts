@@ -2,6 +2,7 @@ import { TOrder, TUser } from './user.interface';
 import User from './user.model';
 
 const createUserInDb = async (userData: TUser) => {
+  // if user already exist with this user id
   if (await User.isUserExists(userData.userId)) {
     throw new Error('user already exists with this userId');
   }
@@ -13,7 +14,7 @@ const createUserInDb = async (userData: TUser) => {
 const getUsersFromDb = async () => {
   const users = await User.find({}).select(
     'username fullName age email address',
-  );
+  ); // getting users without those fields
   return users;
 };
 
@@ -33,6 +34,7 @@ const updateUserByUserId = async (
 ) => {
   const userIdNumber = Number(userId);
 
+  // if user not exist with this user id
   if (!(await User.isUserExists(userIdNumber))) {
     throw new Error('user does not exists');
   }
@@ -46,6 +48,7 @@ const updateUserByUserId = async (
 };
 
 const deleteUserFromDb = async (userId: string) => {
+  // if user not exist with this user id
   if (!(await User.isUserExists(Number(userId)))) {
     throw new Error('user does not exists');
   }
@@ -58,6 +61,8 @@ const deleteUserFromDb = async (userId: string) => {
 
 const createOrderByUserId = async (userId: string, orderData: TOrder) => {
   const userIdNumber = Number(userId);
+
+  // if user not exist with this user id
   if (!(await User.isUserExists(userIdNumber))) {
     throw new Error('user does not exists');
   }
@@ -72,6 +77,7 @@ const createOrderByUserId = async (userId: string, orderData: TOrder) => {
 const getOrdersFromUser = async (userId: string) => {
   const userIdNumber = Number(userId);
 
+  // if user not exist with this user id
   if (!(await User.isUserExists(userIdNumber))) {
     throw new Error('user does not exists');
   }
