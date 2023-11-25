@@ -9,4 +9,5 @@ const path_1 = __importDefault(require("path"));
 exports.default = {
     port: process.env.PORT || 5000,
     database_url: process.env.DATABASE_URL,
+    bcrypt_salt_rounds: process.env.BCRYPT_SALT_ROUND,
 };
