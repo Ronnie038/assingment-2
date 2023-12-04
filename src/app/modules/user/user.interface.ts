@@ -21,7 +21,7 @@ export interface TUser {
     firstName: string;
     lastName: string;
   };
-  orders: TOrder[];
+  orders?: TOrder[];
   hobbies: string[];
   address: TAddress;
   age: number;

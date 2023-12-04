@@ -21,7 +21,7 @@ export const userValidatorSchema = z.object({
       .min(3, { message: 'name must be more then 3 charactor' })
       .max(30),
   }),
-  orders: z.array(orderValidatorSchema),
+  orders: z.array(orderValidatorSchema).optional(),
   hobbies: z.array(z.string()),
   address: z.object({
     street: z.string(),
