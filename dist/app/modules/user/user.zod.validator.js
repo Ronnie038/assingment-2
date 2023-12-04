@@ -22,7 +22,7 @@ exports.userValidatorSchema = zod_1.z.object({
             .min(3, { message: 'name must be more then 3 charactor' })
             .max(30),
     }),
-    orders: zod_1.z.array(exports.orderValidatorSchema),
+    orders: zod_1.z.array(exports.orderValidatorSchema).optional(),
     hobbies: zod_1.z.array(zod_1.z.string()),
     address: zod_1.z.object({
         street: zod_1.z.string(),

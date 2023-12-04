@@ -152,6 +152,7 @@ const createOrder = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
         });
     }
     catch (error) {
+        // if error comes from zod validator
         if (error instanceof zod_1.ZodError) {
             return res.status(403).json({
                 success: false,
@@ -169,6 +170,7 @@ const createOrder = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
         });
     }
 });
+// getting all created orders
 const getOrders = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { userId } = req.params;
@@ -193,7 +195,7 @@ const getOrders = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
 const calculateOrdersTotal = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { userId } = req.params;
-        const total_price = yield user_service_1.userService.calculateOrdersTotalPrice(userId);
+        const total_price = yield user_service_1.userService.calculateOrdersTotalPrice(userId); //getting total sum of orders
         res.status(200).json({
             success: true,
             message: 'Total price calculated successfully!',

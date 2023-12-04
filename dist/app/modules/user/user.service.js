@@ -15,6 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.userService = void 0;
 const user_model_1 = __importDefault(require("./user.model"));
 const createUserInDb = (userData) => __awaiter(void 0, void 0, void 0, function* () {
+    // if user already exist with this user id
     if (yield user_model_1.default.isUserExists(userData.userId)) {
         throw new Error('user already exists with this userId');
     }
@@ -22,7 +23,7 @@ const createUserInDb = (userData) => __awaiter(void 0, void 0, void 0, function*
     return result;
 });
 const getUsersFromDb = () => __awaiter(void 0, void 0, void 0, function* () {
-    const users = yield user_model_1.default.find({}).select('username fullName age email address');
+    const users = yield user_model_1.default.find({}).select('username fullName age email address'); // getting users without those fields
     return users;
 });
 const getSingleUserFromDb = (userId) => __awaiter(void 0, void 0, void 0, function* () {
@@ -34,6 +35,7 @@ const getSingleUserFromDb = (userId) => __awaiter(void 0, void 0, void 0, functi
 });
 const updateUserByUserId = (userId, updatedData) => __awaiter(void 0, void 0, void 0, function* () {
     const userIdNumber = Number(userId);
+    // if user not exist with this user id
     if (!(yield user_model_1.default.isUserExists(userIdNumber))) {
         throw new Error('user does not exists');
     }
@@ -41,6 +43,7 @@ const updateUserByUserId = (userId, updatedData) => __awaiter(void 0, void 0, vo
     return updatedUser;
 });
 const deleteUserFromDb = (userId) => __awaiter(void 0, void 0, void 0, function* () {
+    // if user not exist with this user id
     if (!(yield user_model_1.default.isUserExists(Number(userId)))) {
         throw new Error('user does not exists');
     }
@@ -50,6 +53,7 @@ const deleteUserFromDb = (userId) => __awaiter(void 0, void 0, void 0, function*
 // * order section start
 const createOrderByUserId = (userId, orderData) => __awaiter(void 0, void 0, void 0, function* () {
     const userIdNumber = Number(userId);
+    // if user not exist with this user id
     if (!(yield user_model_1.default.isUserExists(userIdNumber))) {
         throw new Error('user does not exists');
     }
@@ -58,6 +62,7 @@ const createOrderByUserId = (userId, orderData) => __awaiter(void 0, void 0, voi
 });
 const getOrdersFromUser = (userId) => __awaiter(void 0, void 0, void 0, function* () {
     const userIdNumber = Number(userId);
+    // if user not exist with this user id
     if (!(yield user_model_1.default.isUserExists(userIdNumber))) {
         throw new Error('user does not exists');
     }
